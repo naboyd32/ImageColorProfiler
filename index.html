@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Image Color Profile</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse bg-inverse">
+      <div class="container d-flex justify-content-between">
+        <a href="#" class="navbar-brand">Image Color Profile</a>
+      </div>
+    </div>
+
+    <div class="board text-muted">
+      <div class="container">
+        <div class="row">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="row">
+            <div id="stats"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Back to top</a>
+        </p>
+        <p>&copy; Pariete Inc.</p>
+      </div>
+    </footer>
+    <script>
+      (function () {
+      	let canvas = document.getElementById('canvas');
+
+      	let ctx = canvas.getContext('2d');
+
+      	let img = new Image();
+
+		let canvasWidth = 300;
+		
+      	img.onload = function () {
+		    let ratio = canvasWidth/img.width;
+			let canvasHeight = ratio*img.height;
+			canvas.width = canvasWidth;
+			canvas.height = canvasHeight;
+
+      		ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+			let imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+			let pixelData = imageData.data;
+			console.log(pixelData);
+      	};
+
+      	img.src = 'img.png';
+      })();
+    </script>
+  </body>
+</html>
