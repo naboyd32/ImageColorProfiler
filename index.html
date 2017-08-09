@@ -47,20 +47,52 @@
 
       	let img = new Image();
 
-		let canvasWidth = 300;
-		
+      	let canvasWidth = 300;
+
       	img.onload = function () {
-		    let ratio = canvasWidth/img.width;
-			let canvasHeight = ratio*img.height;
-			canvas.width = canvasWidth;
-			canvas.height = canvasHeight;
+      		let ratio = canvasWidth / img.width;
+      		let canvasHeight = ratio * img.height;
+      		canvas.width = canvasWidth;
+      		canvas.height = canvasHeight;
 
       		ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
-			let imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
-			let pixelData = imageData.data;
-			console.log(pixelData);
-      	};
+      		let imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+      		let pixelData = imageData.data;
+      		console.log(pixelData);
 
+      		let colorCount = {};
+      		for (let i = 0; i < pixelData.length; i += 4) {
+      			let r = pixelData[i];
+      			let g = pixelData[i + 1];
+      			let b = pixelData[i + 2];
+      			let a = pixelData[i + 3];
+
+      			let key = "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
+
+      			if (colorCount[key]) {
+      				colorCount[key]++;
+      			} else {
+      				colorCount[key] = 1;
+      			}
+      		}
+      		console.log(colorCount);
+
+      		let colorStats = [];
+      		for (let key in colorCount) {
+      			let couple = [colorCount[key], key];
+      			colorStats.push(couple);
+      		}
+      		colorStats.sort(sortFunction);
+
+      		function sortFunction(a, b) {
+      			if (a[0] === b[0]) {
+      				return 0;
+      			} else {
+      				return (a[0] < b[0]) ? 1 : -1;
+      			}
+      		}
+      		console.log(colorStats);
+      	};
       	img.src = 'img.png';
       })();
     </script>
